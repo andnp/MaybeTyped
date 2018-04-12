@@ -1,77 +1,13 @@
-export interface MatchType<T, R> {
-    some?: (v: T) => R;
-    none?: () => R;
-}
+import Maybe, { Nil, isNothing } from './maybe';
+import { some } from './some';
+import { none } from './none';
 
-export type Nil = null | undefined;
+export const maybe = <T>(value: T | Nil): Maybe<T> => isNothing(value)
+    ? none()
+    : some(value);
 
-const isNothing = (thing: any): thing is Nil => {
-    return thing === undefined || thing === null;
-};
 
-export default class Maybe<T> {
-    private constructor(private value: T | Nil) {}
+export { some } from './some';
+export { none } from './none';
 
-    // Constructors
-    static none<T>() { return new Maybe<T>(undefined); }
-    static some<T>(v: T) { return new Maybe(v); }
-    static maybe<T>(v: T | Nil) { return new Maybe(v); }
-
-    isNothing() { return isNothing(this.value); }
-
-    expect(msg?: string | Error): T {
-        if (isNothing(this.value)) {
-            if (msg instanceof Error) throw msg;
-            throw new Error(msg || 'Expected Maybe to contain non-null value');
-        }
-        return this.value;
-    }
-
-    caseOf<R>(funcs: MatchType<T, R>): Maybe<R> {
-        if (isNothing(this.value)) {
-            return funcs.none ?
-                Maybe.maybe(funcs.none()) :
-                this as any;
-        }
-
-        return funcs.some ?
-            Maybe.maybe(funcs.some(this.value)) :
-            Maybe.none();
-    }
-
-    map<U>(f: (v: T) => (U | Nil)): Maybe<U> {
-        return isNothing(this.value) ?
-            this as any :
-            Maybe.maybe<U>(f(this.value));
-    }
-
-    flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U> {
-        return isNothing(this.value) ?
-            this as any :
-            f(this.value);
-    }
-
-    orElse(def: T | (() => T)): T {
-        if (!isNothing(this.value)) return this.value;
-
-        return typeof def === 'function' ?
-            def() :
-            def;
-    }
-
-    or(other: Maybe<T> | (() => Maybe<T>)): Maybe<T> {
-        if (!isNothing(this.value)) return this;
-
-        return typeof other === 'function' ?
-            other() :
-            other;
-    }
-
-    asNullable(): T | Nil {
-        return this.value;
-    }
-}
-
-export const maybe = Maybe.maybe;
-export const some = Maybe.some;
-export const none = Maybe.none;
+export default Maybe;

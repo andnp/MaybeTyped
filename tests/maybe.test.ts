@@ -10,7 +10,7 @@ const raiseError = () => {
     throw new Error('oops');
 };
 
-const checkInstance = (thing: Maybe<any>) => () => expect(thing).toBeInstanceOf(Maybe);
+const checkInstance = (thing: Maybe<any>) => () => expect(thing instanceof Maybe).toBe(true);
 
 // --------
 // Creators
