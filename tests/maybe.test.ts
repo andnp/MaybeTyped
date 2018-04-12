@@ -177,3 +177,28 @@ test('caseOf - calls "none" function when nil', () => {
         none: () => expect(true).toBe(true),
     });
 });
+
+// ------
+// eq
+// ------
+
+test('eq - none is not `eq` to some', () => {
+    expect.assertions(1);
+
+    expect(none().eq(some("anything"))).toBe(false);
+});
+
+test('eq - none is `eq` to none', () => {
+    expect.assertions(1);
+
+    expect(none().eq(none())).toBe(true);
+});
+
+test('eq - some is `eq` to some if the contents are ===', () => {
+    expect.assertions(2);
+
+    const x = {};
+    expect(some(x).eq(some(x))).toBe(true);
+    // Not same object, not ====
+    expect(some(x).eq(some({}))).toBe(false);
+});

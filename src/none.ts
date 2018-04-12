@@ -40,6 +40,10 @@ export default class None<T> extends Maybe<T> {
             : other;
     }
 
+    eq(other: Maybe<T>): boolean {
+        return other instanceof None;
+    }
+
     asNullable(): T | null { return null; }
 }
 

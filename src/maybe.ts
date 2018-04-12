@@ -20,5 +20,6 @@ export default abstract class Maybe<T> {
     abstract flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U>;
     abstract orElse(def: T | (() => T)): T;
     abstract or(other: Maybe<T> | (() => Maybe<T>)): Maybe<T>;
+    abstract eq(other: Maybe<T>): boolean;
     abstract asNullable(): T | null;
 }
