@@ -1,5 +1,5 @@
 {
-  "name": "MaybeTyped",
+  "name": "maybetyped",
   "version": "0.0.0",
   "description": "Well-typed functional Maybe monad",
   "main": "dist/index",
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/andnp/MaybeTyped#readme",
   "files": [
-    "dist"
+    "dist/src"
   ],
   "jest": {
     "transform": {
