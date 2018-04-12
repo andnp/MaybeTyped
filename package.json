@@ -2,8 +2,8 @@
   "name": "maybetyped",
   "version": "0.0.0",
   "description": "Well-typed functional Maybe monad",
-  "main": "dist/index",
-  "types": "src/index.ts",
+  "main": "dist/src/index",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "lint": "tslint --config tslint.json --project . --format stylish",
