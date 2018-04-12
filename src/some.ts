@@ -32,4 +32,4 @@ export default class Some<T> extends Maybe<T> {
     }
 }
 
-export const some = Some.some;
+export const some: <T>(x: T) => Maybe<T> = Some.some;

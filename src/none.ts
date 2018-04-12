@@ -1,4 +1,4 @@
-import Maybe, { MatchType, Nil } from "./maybe";
+import Maybe, { MatchType } from "./maybe";
 import { maybe } from "index";
 
 export default class None<T> extends Maybe<T> {
@@ -20,11 +20,11 @@ export default class None<T> extends Maybe<T> {
             this as any;
     }
 
-    map<U>(f: (v: T) => (U | Nil)): Maybe<U> {
+    map<U>(): Maybe<U> {
         return this as any;
     }
 
-    flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U> {
+    flatMap<U>(): Maybe<U> {
         return this as any;
     }
 
@@ -43,4 +43,4 @@ export default class None<T> extends Maybe<T> {
     asNullable(): T | null { return null; }
 }
 
-export const none = None.none;
+export const none: <T>() => Maybe<T> = None.none;
