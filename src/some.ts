@@ -1,5 +1,5 @@
 import Maybe, { MatchType, Nil } from "./maybe";
-import { maybe, none } from "index";
+import { maybe, none } from "./index";
 
 export default class Some<T> extends Maybe<T> {
     static some<T>(thing: T) { return new Some<T>(thing); }

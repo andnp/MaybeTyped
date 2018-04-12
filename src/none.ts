@@ -1,5 +1,5 @@
 import Maybe, { MatchType } from "./maybe";
-import { maybe } from "index";
+import { maybe } from "./index";
 
 export default class None<T> extends Maybe<T> {
     protected constructor() { super(null); }
