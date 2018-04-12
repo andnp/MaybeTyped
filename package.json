@@ -45,8 +45,10 @@
       "./src"
     ],
     "moduleFileExtensions": [
+      "js",
       "ts"
-    ]
+    ],
+    "collectCoverage": true
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^6.1.3",
