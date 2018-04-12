@@ -27,6 +27,12 @@ export default class Some<T> extends Maybe<T> {
     or(other: Maybe<T> | (() => Maybe<T>)): Maybe<T> {
         return this;
     }
+
+    eq(other: Maybe<T>): boolean {
+        return other.map(v => v === this.value)
+            .orElse(false);
+    }
+
     asNullable(): T | null {
         return this.value!;
     }
