@@ -1,10 +1,9 @@
-import { AnyFunc } from 'simplytyped';
 import Maybe, { maybe, none, some } from '../src';
 
 // -------
 // Helpers
 // -------
-const execEach = (...args: AnyFunc[]) => () => args.forEach(arg => arg());
+const execEach = (...args: Array<() => any>) => () => args.forEach(arg => arg());
 const noop = () => { /* stub */ };
 const raiseError = () => {
     throw new Error('oops');
