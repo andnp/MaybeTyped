@@ -35,11 +35,11 @@ export default class None<T> extends Maybe<T> {
         return this as any;
     }
 
-    orElse(def: T | (() => T)): T {
+    orElse<U>(def: U | (() => U)): T | U {
         return invokeFunc(def);
     }
 
-    or(other: Maybe<T> | (() => Maybe<T>)): Maybe<T> {
+    or<U>(other: Maybe<U> | (() => Maybe<U>)): Maybe<T | U> {
         return invokeFunc(other);
     }
 

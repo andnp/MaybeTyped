@@ -20,11 +20,11 @@ export default class Some<T> extends Maybe<T> {
         return f(this.value!);
     }
 
-    orElse(def: T | (() => T)): T {
+    orElse<U>(def: U | (() => U)): T | U {
         return this.value!;
     }
 
-    or(other: Maybe<T> | (() => Maybe<T>)): Maybe<T> {
+    or<U>(other: Maybe<U> | (() => Maybe<U>)): Maybe<T | U> {
         return this;
     }
 
