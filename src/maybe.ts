@@ -18,8 +18,8 @@ export default abstract class Maybe<T> {
     abstract caseOf<R>(funcs: MatchType<T, R>): Maybe<R>;
     abstract map<U>(f: (v: T) => (U | Nil)): Maybe<U>;
     abstract flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U>;
-    abstract orElse(def: T | (() => T)): T;
-    abstract or(other: Maybe<T> | (() => Maybe<T>)): Maybe<T>;
+    abstract orElse<U>(def: U | (() => U)): T | U;
+    abstract or<U>(other: Maybe<U> | (() => Maybe<U>)): Maybe<T | U>;
     abstract eq(other: Maybe<T>): boolean;
     abstract asNullable(): T | null;
 }
