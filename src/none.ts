@@ -1,6 +1,13 @@
 import Maybe, { MatchType } from "./maybe";
 import { maybe } from "./index";
 
+const invokeFunc = <T>(funcOrT: T | (() => T)): T => {
+    if(typeof funcOrT === "function") {
+        return funcOrT();
+    }
+    return funcOrT;
+};
+
 export default class None<T> extends Maybe<T> {
     protected constructor() { super(null); }
 
@@ -29,15 +36,11 @@ export default class None<T> extends Maybe<T> {
     }
 
     orElse(def: T | (() => T)): T {
-        return typeof def === 'function'
-            ? def()
-            : def;
+        return invokeFunc(def);
     }
 
     or(other: Maybe<T> | (() => Maybe<T>)): Maybe<T> {
-        return typeof other === 'function'
-            ? other()
-            : other;
+        return invokeFunc(other);
     }
 
     eq(other: Maybe<T>): boolean {
