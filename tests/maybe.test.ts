@@ -234,3 +234,16 @@ test('eq - some is `eq` to some if the contents are ===', () => {
     // Not same object, not ====
     expect(some(x).eq(some({}))).toBe(false);
 });
+
+// -------
+// Fantasy
+// -------
+
+test('fantasy-land/map - calls into the map method', () => {
+    expect.assertions(1);
+
+    const value = "i'm not nil";
+    const definitely = some(value);
+
+    definitely["fantasy-land/map"](v => expect(v).toBe(value));
+});
