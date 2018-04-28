@@ -89,6 +89,18 @@ test('expect - Throws error when nil', () => {
     }).toThrow();
 });
 
+test('expect - Throws specified message when nil', () => {
+    expect(() => {
+        none().expect('oops....');
+    }).toThrow('oops....');
+});
+
+test('expect - Throws specified error when nil', () => {
+    expect(() => {
+        none().expect(new Error('uh-oh'));
+    }).toThrowError('uh-oh');
+});
+
 // --
 // or
 // --
@@ -174,6 +186,26 @@ test('caseOf - calls "none" function when nil', () => {
 
     none().caseOf({
         some: raiseError,
+        none: () => expect(true).toBe(true),
+    });
+});
+
+test('caseOf - can be provided subset of matcher functions', () => {
+    expect.assertions(2);
+
+    some('hey').caseOf({
+        none: raiseError,
+    });
+
+    none().caseOf({
+        some: raiseError,
+    });
+
+    some('hey').caseOf({
+        some: v => expect(v).toBe('hey'),
+    });
+
+    none().caseOf({
         none: () => expect(true).toBe(true),
     });
 });
