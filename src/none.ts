@@ -13,12 +13,9 @@ export default class None<T> extends Maybe<T> {
 
     static none<T>() { return new None<T>(); }
 
-    expect(msg?: string | Error) {
+    expect(msg?: string | Error): T {
         if (msg instanceof Error) throw msg;
         throw new Error(msg || 'Expected Maybe to contain non-null value');
-
-        // @ts-ignore -- need to return type T, but this is unreachable code
-        return this.value!;
     }
 
     caseOf<R>(funcs: MatchType<T, R>): Maybe<R> {
