@@ -1,3 +1,4 @@
+import { Nullable } from 'simplytyped';
 import * as fl from './fantasy-land';
 
 export const binder = <T extends Function>(context: any, f: T): T => f.bind(context); // tslint:disable-line ban-types
@@ -14,7 +15,7 @@ export const isNothing = (thing: any): thing is Nil => {
 };
 
 export default abstract class Maybe<T> {
-    protected constructor(protected value: T | Nil) {}
+    protected constructor(protected value: Nullable<T>) {}
 
     static of: <T>(x: T) => Maybe<T>;
 
@@ -22,7 +23,7 @@ export default abstract class Maybe<T> {
 
     abstract expect(msg?: string | Error): T;
     abstract caseOf<R>(funcs: MatchType<T, R>): Maybe<R>;
-    abstract map<U>(f: (v: T) => (U | Nil)): Maybe<U>;
+    abstract map<U>(f: (v: T) => Nullable<U>): Maybe<U>;
     abstract flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U>;
     abstract orElse<U>(def: U | (() => U)): T | U;
     abstract or<U>(other: Maybe<U> | (() => Maybe<U>)): Maybe<T | U>;
