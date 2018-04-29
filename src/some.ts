@@ -1,4 +1,5 @@
-import Maybe, { MatchType, Nil } from "./maybe";
+import { Nullable } from 'simplytyped';
+import Maybe, { MatchType } from "./maybe";
 import { maybe, none } from "./index";
 
 export default class Some<T> extends Maybe<T> {
@@ -12,7 +13,7 @@ export default class Some<T> extends Maybe<T> {
             : none<R>();
     }
 
-    map<U>(f: (v: T) => (U | Nil)): Maybe<U> {
+    map<U>(f: (v: T) => Nullable<U>): Maybe<U> {
         return maybe<U>(f(this.value!));
     }
 
