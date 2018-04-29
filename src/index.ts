@@ -13,5 +13,6 @@ Maybe[fl.of] = maybe;
 
 export { some } from './some';
 export { none } from './none';
+export { maybeT, MaybeT } from './transformer';
 
 export default Maybe;
