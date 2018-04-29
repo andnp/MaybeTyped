@@ -68,5 +68,8 @@
   },
   "release": {
     "branch": "master"
+  },
+  "dependencies": {
+    "simplytyped": "^1.0.5"
   }
 }
