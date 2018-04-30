@@ -4,6 +4,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/andnp/MaybeTyped.svg)](https://greenkeeper.io/)
 [![codecov](https://codecov.io/gh/andnp/MaybeTyped/branch/master/graph/badge.svg)](https://codecov.io/gh/andnp/MaybeTyped)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![Known Vulnerabilities](https://snyk.io/test/github/andnp/maybetyped/badge.svg?targetFile=package.json)](https://snyk.io/test/github/andnp/maybetyped?targetFile=package.json)
 
 MaybeTyped is a well-typed Maybe (optional) monad written in typescript.
 
