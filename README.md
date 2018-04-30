@@ -1,10 +1,10 @@
 # MaybeTyped
 
 [![Build Status](https://travis-ci.org/andnp/MaybeTyped.svg?branch=master)](https://travis-ci.org/andnp/MaybeTyped)
-[![Greenkeeper badge](https://badges.greenkeeper.io/andnp/MaybeTyped.svg)](https://greenkeeper.io/)
 [![codecov](https://codecov.io/gh/andnp/MaybeTyped/branch/master/graph/badge.svg)](https://codecov.io/gh/andnp/MaybeTyped)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Known Vulnerabilities](https://snyk.io/test/github/andnp/maybetyped/badge.svg?targetFile=package.json)](https://snyk.io/test/github/andnp/maybetyped?targetFile=package.json)
+[![Greenkeeper badge](https://badges.greenkeeper.io/andnp/MaybeTyped.svg)](https://greenkeeper.io/)
 
 MaybeTyped is a well-typed Maybe (optional) monad written in typescript.
 
@@ -155,4 +155,88 @@ const value = 'hi';
 const nullable = maybe(value).asNullable();
 
 assert(nullable === value);
+```
+
+## MaybeT
+```typescript
+export function apiUserSearch(user: string): MaybeT<Promise<UserData>> {
+    // if user does not exist, api returns undefined
+    return maybeT(fetch(`some/uri?user=${user}`).json());
+}
+
+const userBirthday = await apiUserSearch('yagami')
+    .map(user => user.birthday)
+    .map(date => new Date(date))
+    .orElse(() => Date.now()); // <- this is probably a bad design choice :P
+
+const userBirthdayPromises = maybeT(['misa misa', 'light', null, 'ryuk'])
+    .map(apiUserSearch)
+    .map(maybeUser =>
+        maybeUser
+            .map(user => user.birthday)
+            .map(date => new Date(date))
+            .orElse(() => Date.now()))
+    .asNullable();
+
+const userBirthdays = await Promise.all(userBirthdayPromises);
+```
+
+## Api
+
+### maybeT
+`maybeT` is the constructor for a maybe transform.
+Anything with a `map` function can be transformed into a `maybeT`.
+Due to the commonality of the use case, support for `thenables` is also added, though be warned that `then` matches `flatMap` semantics, not `map` semantics.
+```typescript
+const maybeThings = maybeT([1, 2, null, 4, undefined, 6]); // MaybeT<Array<number>>
+const maybeLater = maybeT(Promise.resolve('hey')); // MaybeT<Promise<string>>
+```
+
+### map
+```typescript
+const things = maybeT(['1', '2', null, '4']) // MaybeT<Array<string>>
+    .map(x => parseInt(x)); // MaybeT<Array<number>>
+```
+
+### caseOf
+```typescript
+const things = maybeT([1, 2, null, 4])
+    .caseOf({
+        none: () => 4,
+        some: x => x + 1,
+    }); // MaybeT<Array<number>> => MaybeT<[2, 3, 4, 5]>
+```
+
+### orElse
+```typescript
+const things = maybeT([1, 2, null, 4])
+    .orElse(3); // MaybeT<Array<number>> => MaybeT<[1, 2, 3, 4]>
+```
+
+### asNullable
+```typescript
+const things = maybeT([1, 2, null, 4])
+    .asNullable(); // Array<number> => [1, 2, null, 4]
+```
+
+### asType
+Because typescript does not have support for higher-kinded-types (HKT), we lose track of which monad-like HKT we are dealing with (`Array` or `Promise` or other).
+This means that after most operations the type will become `MaybeT<MonadLike<*>>`.
+To cope with this, we provide an `asType` method that will allow us to properly "remember" what type of monad we were originally dealing with.
+A little type safety will be lost here, as you could lie and say this is an `Array` instead of a `Promise`, but the constructor that is passed in to this method will confirm the type at runtime.
+This method also asks for the contained type, but because we _haven't_ forgotten that, we will be able to check that.
+
+Programmatic examples below should help make this more clear.
+```typescript
+const a = maybeT(Promise.resolve('hi'))
+    .asType<Promise<string>>(Promise); // Promise<string> => this is correct
+
+const b = maybeT(Promise.resolve('hey'))
+    .asType<Array<string>>(Array); // Array<string> => this will throw a runtime err, but not a compile err
+
+const c = maybeT(Promise.resolve('hello'))
+    .asType<Promise<number>>(Promise); // any => this will throw a compile err, but not runtime
+
+const d = maybeT(Promise.resolve('merp'))
+    .asType<Promise<string>>(Array); // any => this will throw a compile err and runtime
 ```
