@@ -30,6 +30,8 @@ export default abstract class Maybe<T> {
     abstract eq(other: Maybe<T>): boolean;
     abstract asNullable(): T | null;
 
+    abstract join<U, R>(f: (x: T, y: U) => R | Nil, other: Maybe<U>): Maybe<R>;
+
     // Fantasy-land aliases
     static [fl.of]: <T>(x: T) => Maybe<T>;
     [fl.map] = binder(this, this.map);

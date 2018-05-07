@@ -8,6 +8,8 @@ const noop = () => { /* stub */ };
 const raiseError = () => {
     throw new Error('oops');
 };
+const pass = () => expect(true).toBe(true);
+const fail = () => expect(true).toBe(false);
 
 const checkInstance = (thing: Maybe<any>) => () => expect(thing instanceof Maybe).toBe(true);
 
@@ -186,7 +188,7 @@ test('caseOf - calls "none" function when nil', () => {
 
     none().caseOf({
         some: raiseError,
-        none: () => expect(true).toBe(true),
+        none: () => pass(),
     });
 });
 
@@ -206,7 +208,7 @@ test('caseOf - can be provided subset of matcher functions', () => {
     });
 
     none().caseOf({
-        none: () => expect(true).toBe(true),
+        none: () => pass(),
     });
 });
 
@@ -233,6 +235,37 @@ test('eq - some is `eq` to some if the contents are ===', () => {
     expect(some(x).eq(some(x))).toBe(true);
     // Not same object, not ====
     expect(some(x).eq(some({}))).toBe(false);
+});
+
+// ----
+// join
+// ----
+
+test('join - calls f if both sides are some', () => {
+    expect.assertions(1);
+
+    const x = some('hi ');
+    const y = some('there');
+
+    const z = x.join((a, b) => a + b, y);
+
+    z.map(c => expect(c).toBe('hi there'));
+});
+
+test('join - does not call f if either side is none', () => {
+    expect.assertions(3);
+
+    const left = some('hi');
+    const right = none<string>();
+    const middle = none<string>();
+
+    const z1 = left.join((a, b) => a + b, right);
+    const z2 = right.join((a, b) => a + b, left);
+    const z3 = right.join((a, b) => a + b, middle);
+
+    z1.map(fail).orElse(pass);
+    z2.map(fail).orElse(pass);
+    z3.map(fail).orElse(pass);
 });
 
 // -------

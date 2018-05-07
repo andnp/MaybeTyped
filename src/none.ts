@@ -1,4 +1,4 @@
-import Maybe, { MatchType } from "./maybe";
+import Maybe, { MatchType, Nil } from "./maybe";
 import { maybe } from "./index";
 
 const invokeFunc = <T>(funcOrT: T | (() => T)): T => {
@@ -42,6 +42,10 @@ export default class None<T> extends Maybe<T> {
 
     eq(other: Maybe<T>): boolean {
         return other instanceof None;
+    }
+
+    join<U, R>(f: (x: T, y: U) => R | Nil, other: Maybe<U>): Maybe<R> {
+        return this as any;
     }
 
     asNullable(): T | null { return null; }
