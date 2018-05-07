@@ -34,6 +34,10 @@ export default class Some<T> extends Maybe<T> {
             .orElse(false);
     }
 
+    join<U, R>(f: (x: T, y: U) => Nullable<R>, other: Maybe<U>): Maybe<R> {
+        return this.flatMap(x => other.map(y => f(x, y)));
+    }
+
     asNullable(): T | null {
         return this.value!;
     }

@@ -157,6 +157,20 @@ const nullable = maybe(value).asNullable();
 assert(nullable === value);
 ```
 
+### join
+`join` takes a "joiner" function and another `Maybe` instance and combines them.
+If either of the `Maybe`s are empty, then the joiner function is not called.
+
+```typescript
+const first = maybe(getFirstName());
+const last = maybe(getLastName());
+
+const name_007 = first.join(
+    (a, b) => `${b}. ${a} ${b}.`,
+    last,
+);
+```
+
 ## MaybeT
 ```typescript
 export function apiUserSearch(user: string): MaybeT<Promise<UserData>> {
