@@ -47,7 +47,7 @@ export class MaybeT<T extends MonadLike<Unknown>> {
         ));
     }
 
-    orElse<U extends MonadValue<T>>(def: U | (() => U)): U {
+    orElse<U extends MonadValue<any>>(def: U | (() => U)): T | U {
         const map = getMap(this.value);
         return map(inner =>
             maybe(inner)
