@@ -51,4 +51,5 @@ export default class None<T> extends Maybe<T> {
     asNullable(): T | null { return null; }
 }
 
-export const none: <T>() => Maybe<T> = None.none;
+const _noneSingleton = None.none<any>();
+export const none = <T>(): Maybe<T> => _noneSingleton;
