@@ -10,6 +10,7 @@
         "target": "es5",
         "noImplicitAny": true,
         "noImplicitThis": true,
+        "importHelpers": true,
         "declaration": true,
         "lib": [
             "es2015",
