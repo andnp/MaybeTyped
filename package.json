@@ -2,15 +2,18 @@
   "name": "maybetyped",
   "version": "0.0.0",
   "description": "Well-typed functional Maybe monad",
-  "main": "dist/src/index",
-  "types": "dist/src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.mjs",
   "scripts": {
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "lint": "tslint --config tslint.json --project . --format stylish",
     "test": "jest",
+    "rollup/cjs": "rollup --format cjs --config rollup.config.js --file dist/index.js",
+    "rollup/esm": "rollup --format esm --config rollup.config.js --file dist/index.mjs",
     "tsc": "tsc",
-    "prepush": "npm run -s lint && npm test",
-    "release": "rm -rf dist && npm run tsc && npx semantic-release"
+    "prepush": "run-s lint test",
+    "release": "rm -rf dist && run-s rollup/cjs rollup/esm && npx semantic-release"
   },
   "repository": {
     "type": "git",
@@ -56,6 +59,9 @@
     "commitlint": "^7.0.0",
     "husky": "^0.14.3",
     "jest": "^22.4.3",
+    "npm-run-all": "^4.1.3",
+    "rollup": "^0.62.0",
+    "rollup-plugin-typescript2": "^0.15.1",
     "ts-jest": "^23.0.0",
     "ts-node": "^7.0.0",
     "tslint": "^5.9.1",
