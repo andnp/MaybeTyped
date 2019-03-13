@@ -1,4 +1,4 @@
-import { ConstructorFor, Unknown, Nullable } from 'simplytyped';
+import { ConstructorFor, Nullable } from 'simplytyped';
 // @ts-ignore
 import Maybe, { MatchType, Nil } from './maybe';
 import { maybe } from './index';
@@ -22,10 +22,10 @@ const getMap = (x: MonadLike<any>): Monad<any>['map'] => {
     return x.map.bind(x) as any;
 };
 
-export class MaybeT<T extends MonadLike<Unknown>> {
+export class MaybeT<T extends MonadLike<unknown>> {
     private constructor(private value: T) {}
 
-    static maybeT<V extends MonadLike<Unknown>>(monad: V) {
+    static maybeT<V extends MonadLike<unknown>>(monad: V) {
         return new MaybeT(monad);
     }
 

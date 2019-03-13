@@ -1,8 +1,12 @@
 import Maybe, { MatchType, Nil } from "./maybe";
 import { maybe } from "./index";
 
+const isNoArgFunc = <T>(x: any): x is (() => any) => {
+    return typeof x === "function" && x.length === 0;
+};
+
 const invokeFunc = <T>(funcOrT: T | (() => T)): T => {
-    if(typeof funcOrT === "function") {
+    if(isNoArgFunc(funcOrT)) {
         return funcOrT();
     }
     return funcOrT;
