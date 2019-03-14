@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "module": "dist/index.mjs",
   "scripts": {
+    "build": "rm -rf dist && run-s rollup/cjs rollup/esm",
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "lint": "tslint --config tslint.json --project . --format stylish",
     "test": "jest",
@@ -13,7 +14,7 @@
     "rollup/esm": "rollup --format esm --config rollup.config.js --file dist/index.mjs",
     "tsc": "tsc",
     "prepush": "run-s lint test",
-    "release": "rm -rf dist && run-s rollup/cjs rollup/esm && npx semantic-release"
+    "release": "run-s build && npx semantic-release"
   },
   "repository": {
     "type": "git",
