@@ -5,7 +5,9 @@ node_js:
 install:
   - npm install
 script:
+  - npm run tsc
   - npm run test
+  - npm run build
   - npx codecov -t $CODECOV_TOKEN
 deploy:
   provider: script
