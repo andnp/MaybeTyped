@@ -58,7 +58,7 @@
   "devDependencies": {
     "@commitlint/config-conventional": "^8.0.0",
     "@types/jest": "~24.0.0",
-    "commitlint": "^7.0.0",
+    "commitlint": "^8.0.0",
     "husky": "^1.0.0",
     "jest": "^24.0.0",
     "npm-run-all": "^4.1.3",
