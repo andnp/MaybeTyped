@@ -5,6 +5,8 @@ export const binder = <T extends Function>(context: any, f: T): T => f.bind(cont
 
 export type Nil = null | undefined;
 
+export type NotVoid = object | string | number | boolean | undefined | null;
+
 export interface MatchType<T, R> {
     some?: (v: T) => R;
     none?: () => R;
@@ -23,7 +25,7 @@ export default abstract class Maybe<T> {
 
     abstract expect(msg?: string | Error): T;
     abstract caseOf<R>(funcs: MatchType<T, R>): Maybe<R>;
-    abstract map<U>(f: (v: T) => Nullable<U>): Maybe<U>;
+    abstract map<U extends NotVoid>(f: (v: T) => Nullable<U>): Maybe<U>;
     abstract tap(f: (v: T) => void): Maybe<T>;
     abstract flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U>;
     abstract orElse<U>(def: U | (() => U)): T | U;
@@ -31,11 +33,11 @@ export default abstract class Maybe<T> {
     abstract eq(other: Maybe<T>): boolean;
     abstract asNullable(): T | null;
 
-    abstract join<U, R>(f: (x: T, y: U) => R | Nil, other: Maybe<U>): Maybe<R>;
+    abstract join<U, R extends NotVoid>(f: (x: T, y: U) => R | Nil, other: Maybe<U>): Maybe<R>;
 
     // Fantasy-land aliases
     static [fl.of]: <T>(x: T) => Maybe<T>;
     [fl.map] = binder(this, this.map);
     [fl.chain] = binder(this, this.flatMap);
-    [fl.ap]: <U>(m: Maybe<(x: T) => U>) => Maybe<U> = m => m.flatMap(f => this.map(f));
+    [fl.ap]: <U extends NotVoid>(m: Maybe<(x: T) => U>) => Maybe<U> = m => m.flatMap(f => this.map(f));
 }

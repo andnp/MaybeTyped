@@ -1,6 +1,6 @@
 import { ConstructorFor, Nullable } from 'simplytyped';
 // @ts-ignore
-import Maybe, { MatchType, Nil } from './maybe';
+import Maybe, { MatchType, Nil, NotVoid } from './maybe';
 import { maybe } from './index';
 
 export interface Monad<T> {
@@ -29,7 +29,7 @@ export class MaybeT<T extends MonadLike<unknown>> {
         return new MaybeT(monad);
     }
 
-    map<U>(f: (v: MaybeValue<T>) => U): MaybeT<Monad<U>> {
+    map<U extends NotVoid>(f: (v: MaybeValue<T>) => U): MaybeT<Monad<U>> {
         const map = getMap(this.value);
         return new MaybeT(map(inner =>
             maybe(inner)

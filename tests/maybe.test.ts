@@ -4,7 +4,7 @@ import Maybe, { maybe, none, some } from '../src';
 // Helpers
 // -------
 const execEach = (...args: Array<() => any>) => () => args.forEach(arg => arg());
-const noop = () => { /* stub */ };
+const noop = () => null;
 const raiseError = () => {
     throw new Error('oops');
 };
@@ -38,7 +38,8 @@ test('Calls map function when contained value is non-nil', () => {
     const value = "i'm not nil";
     const definitely = some(value);
 
-    definitely.map(v => expect(v).toBe(value));
+    // `void` to avoid passing void function to map
+    definitely.map(v => void expect(v).toBe(value));
 });
 
 test('Does not call map function when contained value is nil', () => {
@@ -272,7 +273,7 @@ test('join - calls f if both sides are some', () => {
 
     const z = x.join((a, b) => a + b, y);
 
-    z.map(c => expect(c).toBe('hi there'));
+    z.tap(c => expect(c).toBe('hi there'));
 });
 
 test('join - does not call f if either side is none', () => {
@@ -286,9 +287,9 @@ test('join - does not call f if either side is none', () => {
     const z2 = right.join((a, b) => a + b, left);
     const z3 = right.join((a, b) => a + b, middle);
 
-    z1.map(fail).orElse(pass);
-    z2.map(fail).orElse(pass);
-    z3.map(fail).orElse(pass);
+    z1.tap(fail).orElse(pass);
+    z2.tap(fail).orElse(pass);
+    z3.tap(fail).orElse(pass);
 });
 
 // -------
@@ -301,5 +302,6 @@ test('fantasy-land/map - calls into the map method', () => {
     const value = "i'm not nil";
     const definitely = some(value);
 
-    definitely["fantasy-land/map"](v => expect(v).toBe(value));
+    // `void` to avoid passing void function to map
+    definitely["fantasy-land/map"](v => void expect(v).toBe(value));
 });
