@@ -17,6 +17,12 @@ export default class Some<T> extends Maybe<T> {
         return maybe<U>(f(this.value!));
     }
 
+    tap(f: (v: T) => void): Maybe<T> {
+        f(this.value!);
+        return this;
+    }
+
+
     flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U> {
         return f(this.value!);
     }

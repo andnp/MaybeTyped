@@ -24,6 +24,7 @@ export default abstract class Maybe<T> {
     abstract expect(msg?: string | Error): T;
     abstract caseOf<R>(funcs: MatchType<T, R>): Maybe<R>;
     abstract map<U>(f: (v: T) => Nullable<U>): Maybe<U>;
+    abstract tap(f: (v: T) => void): Maybe<T>;
     abstract flatMap<U>(f: (v: T) => Maybe<U>): Maybe<U>;
     abstract orElse<U>(def: U | (() => U)): T | U;
     abstract or<U>(other: Maybe<U> | (() => Maybe<U>)): Maybe<T | U>;
