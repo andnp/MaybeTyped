@@ -66,7 +66,7 @@ const maybeAdd1 = (x: Maybe<number>) => x.map(y => y + 1);
 
 const x = some(2).flatMap(maybeAdd1); // Maybe<3>
 
-const y = none().flatMap(maybeAdd1); // Maybe<undefined>
+const y = none().flatMap(maybeAdd1); // None
 ```
 
 ### or
@@ -144,7 +144,7 @@ This is particularly useful at the boundaries of your API.
 Often the internals of a library use `Maybe` to clean up code, but would like their external contracts to not be forced to use `Maybe`s, but instead "vanilla" JS.
 For instance:
 ```typescript
-export function doThing(): string | undefined {
+export function doThing(): string | null {
     const maybeValue: Maybe<string> = getFromSomewhereInLib();
     return maybeValue.asNullable();
 }
