@@ -49,6 +49,29 @@ test('map - Gives back a maybe', checkInstance(
     none().map(noop),
 ));
 
+// ---
+// Tap
+// ---
+
+test('Calls map function when contained value is non-nil', () => {
+    expect.assertions(2);
+
+    const value = "i'm not nil";
+    const definitely = some(value);
+
+    definitely
+        .tap(v => expect(v).toBe(value))
+        .tap(v => expect(v).toBe(value));
+});
+
+test('Does not call tap function when contained value is nil', () => {
+    none().tap(raiseError);
+});
+
+test('tap - Gives back a maybe', checkInstance(
+    none().tap(noop),
+));
+
 // --------
 // Flat Map
 // --------

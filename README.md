@@ -54,6 +54,18 @@ const now: Array<number> = orig.map(x => parseInt(x));
     none().map(v => console.log(v)) // does not print
 ```
 
+### tap
+Like `map`, it calls a function with the current value, if there is one, but ignores any return value and the result is always the original Maybe.  Intended for running side-effects, without changing the value.
+
+```typescript
+some(1)
+    // If this was `.map`, then the result of this call would be None
+    .tap(x => console.log(`Original value is ${x}`))
+    .map(x => x + 1)
+    .tap(x => console.log(`New value is ${x}`))
+```
+
+
 ### flatMap
 FlatMap also accesses the contained value, but it expects that its "mapper" function returns a container of the same type.
 Imagine the conceptually equivalent array container:

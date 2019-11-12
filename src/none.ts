@@ -32,6 +32,10 @@ export default class None<T> extends Maybe<T> {
         return this as any;
     }
 
+    tap(): Maybe<T> {
+        return this;
+    }
+
     flatMap<U>(): Maybe<U> {
         return this as any;
     }
