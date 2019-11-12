@@ -1,5 +1,5 @@
 import { Nullable } from 'simplytyped';
-import Maybe, { MatchType } from "./maybe";
+import Maybe, { MatchType, NotVoid } from "./maybe";
 import { maybe, none } from "./index";
 
 export default class Some<T> extends Maybe<T> {
@@ -40,7 +40,7 @@ export default class Some<T> extends Maybe<T> {
             .orElse(false);
     }
 
-    join<U, R>(f: (x: T, y: U) => Nullable<R>, other: Maybe<U>): Maybe<R> {
+    join<U, R extends NotVoid>(f: (x: T, y: U) => Nullable<R>, other: Maybe<U>): Maybe<R> {
         return this.flatMap(x => other.map(y => f(x, y)));
     }
 
