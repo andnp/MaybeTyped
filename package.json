@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^8.0.0",
-    "@types/jest": "~25.1.0",
+    "@types/jest": "~25.2.0",
     "commitlint": "^8.0.0",
     "husky": "^4.0.2",
     "jest": "^24.0.0",
