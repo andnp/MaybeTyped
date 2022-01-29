@@ -79,6 +79,6 @@
   },
   "dependencies": {
     "simplytyped": "^3.0.0",
-    "tslib": "^1.9.2"
+    "tslib": "^2.3.1"
   }
 }
